@@ -8,7 +8,7 @@ import { Roles } from 'src/decorators/roles.decorator';
 @Controller()
 export class ProtectedController {
 
-    @Get('doctor')
+    @Get('doctor-dashboard')
     @UseGuards(
         JwtAuthGuard,
         RolesGuard,
@@ -25,7 +25,7 @@ export class ProtectedController {
         JwtAuthGuard,
         RolesGuard,
     )
-    @Roles('patient')
+    @Roles('patient-dashboard')
     patientRoute() {
         return {
             message:'Patient route accessed',

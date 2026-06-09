@@ -1,6 +1,7 @@
 import {
     IsString,
     IsNumber,
+    IsBoolean,
 } from "class-validator";
 
 export class CreateDoctorDto {
@@ -21,7 +22,7 @@ export class CreateDoctorDto {
 
     @IsString()
     availabilityHours!: string;
-
+       
     @IsString()
     profileDetails!:string; 
 
