@@ -7,25 +7,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  Doctor
-  Patient
-}
-
-model User{
-  id       Int      @id @default(autoincrement())
-  name     String
-  email    String   @unique
-  password String
-  role     Role
-  doctor   Doctor?
-  patient  Patient?
-
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  doctor    Doctor?
+  patient   Patient?
 }
 
-model Doctor{
+model Doctor {
   id                Int    @id @default(autoincrement())
   fullName          String
   specialization    String
@@ -34,19 +28,22 @@ model Doctor{
   consultationFee   String
   availabilityHours String
   profileDetails    String
-
-  userId Int  @unique
-  user   User @relation(fields: [userId], references: [id])
+  userId            Int    @unique
+  user              User   @relation(fields: [userId], references: [id])
 }
 
-model Patient{
+model Patient {
   id             Int     @id @default(autoincrement())
   fullName       String
   age            Int
   gender         String
   contactDetails String
   healthInfo     String?
+  userId         Int     @unique
+  user           User    @relation(fields: [userId], references: [id])
+}
 
-  userId Int  @unique
-  user   User @relation(fields: [userId], references: [id])
+enum Role {
+  Doctor
+  Patient
 }
