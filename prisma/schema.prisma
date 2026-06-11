@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  
 }
 
 model User {
@@ -30,6 +31,9 @@ model Doctor {
   profileDetails    String
   userId            Int    @unique
   user              User   @relation(fields: [userId], references: [id])
+
+  availabilities    Availability[]
+  overrides         AvailabilityOverride[]
 }
 
 model Patient {
@@ -43,6 +47,33 @@ model Patient {
   user           User    @relation(fields: [userId], references: [id])
 }
 
+model playing_with_neon {
+  id    Int    @id @default(autoincrement())
+  name  String
+  value Float? @db.Real
+}
+
+model Availability {
+  id         Int      @id @default(autoincrement())
+  doctorId   Int
+  dayOfWeek  Int
+  startTime  String
+  endTime    String
+
+  doctor     Doctor   @relation(fields: [doctorId], references: [id])
+  createdAt  DateTime @default(now())
+}
+
+model AvailabilityOverride {
+  id         Int      @id @default(autoincrement())
+  doctorId   Int
+  date       DateTime
+  startTime  String
+  endTime    String
+
+  doctor     Doctor   @relation(fields: [doctorId], references: [id])
+  createdAt  DateTime @default(now())
+}
 enum Role {
   Doctor
   Patient

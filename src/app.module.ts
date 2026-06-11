@@ -6,9 +6,10 @@ import { PrismaService } from './auth/prisma/prisma.service';
 import { ProtectedModule } from './protected/protected.module';
 import { DoctorModule } from './doctor/doctor.module';
 import { PatientModule } from './patient/patient.module';
+import { AvailabilityModule } from './availability/availability.module';
 
 @Module({
-  imports: [AuthModule,ProtectedModule, DoctorModule, PatientModule],
+  imports: [AuthModule,ProtectedModule, DoctorModule, PatientModule, AvailabilityModule],
   providers: [PrismaService],
 })
 export class AppModule {}
