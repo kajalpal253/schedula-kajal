@@ -63,6 +63,19 @@ export class AvailabilityService {
             overrides,
         };
     }
+    async getDoctorIdByUserId(userId: number) {
+  const doctor = await this.prisma.doctor.findUnique({
+    where: {
+      userId,
+    },
+  });
+
+  if (!doctor) {
+    throw new BadRequestException('Doctor profile not found');
+  }
+
+  return doctor.id;
+}
 
 
     

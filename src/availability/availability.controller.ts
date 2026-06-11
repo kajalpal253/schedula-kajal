@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { AvailabilityService } from './availability.service';
 import { CreateAvailabilityDto } from 'src/auth/dto/create-availability.dto';
 import { CreateOverrideDto } from 'src/auth/dto/create-override.dto';
@@ -14,27 +14,37 @@ export class AvailabilityController {
     @UseGuards(JwtAuthGuard,RolesGuard)
     @Roles(Role.Doctor)
     @Post('weekly')
-    createAvailability(
-        @Req() req,
-        @Body() dto:CreateAvailabilityDto,
-    ) {
-        return this.availabilityService.createAvailability(
-            req.user.id,
-            dto,
-        );
-    }
+async createAvailability(
+  @Req() req,
+  @Body() dto: CreateAvailabilityDto,
+) {
+  const doctorId =
+    await this.availabilityService.getDoctorIdByUserId(
+      req.user.id,
+    );
+
+  return this.availabilityService.createAvailability(
+    doctorId,
+    dto,
+  );
+}
     @UseGuards(JwtAuthGuard,RolesGuard)
     @Roles(Role.Doctor)
     @Post('override')
-    createOverride(
-        @Req() req,
-        @Body() dto:CreateOverrideDto,
-    ){
-        return this.availabilityService.createOverride(
-            req.user.id,
-            dto,
-        );
-    }
+    async createOverride(
+    @Req() req,
+    @Body() dto: CreateOverrideDto,
+){
+    const doctorId =
+      await this.availabilityService.getDoctorIdByUserId(
+        req.user.id,
+      );
+
+    return this.availabilityService.createOverride(
+      doctorId,
+      dto,
+    );
+}    
 
     @Get(':doctorId')
     getAvailability(
