@@ -101,4 +101,16 @@ export class DoctorService {
         }
         return doctor;
     }
+
+    async deleteDoctor(id:number){
+        const doctor = await this.prisma.doctor.findUnique({
+            where: { id },
+        });
+        if(!doctor){
+            throw new NotFoundException('Doctor not found');
+        }
+        return this.prisma.doctor.delete({
+        where:{id},
+        });
+    }
 }

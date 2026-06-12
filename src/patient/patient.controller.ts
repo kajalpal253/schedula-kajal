@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { PatientService } from './patient.service';
 import { CreatePatientDto } from 'src/auth/dto/create-patient.dto';
 import { UpdatePatientDto } from 'src/auth/dto/update-patient.dto';
@@ -23,4 +23,9 @@ export class PatientController {
         update(@Req() req ,@Body() updatePatientDto:UpdatePatientDto){
             return this.patientService.updateProfile(req.user.id,updatePatientDto)
         }
+
+        @Delete(':id')
+            deletetPatint(@Param('id') id:string){
+                return this.patientService.deleteDoctor(Number(id));
+            }
 }

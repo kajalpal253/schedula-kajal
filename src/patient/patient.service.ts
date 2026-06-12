@@ -55,5 +55,17 @@ export class PatientService {
                 data:dto,
             });
         }
+
+        async deleteDoctor(id:number){
+        const doctor = await this.prisma.patient.findUnique({
+            where: { id },
+        });
+        if(!doctor){
+            throw new NotFoundException('Doctor not found');
+        }
+        return this.prisma.patient.delete({
+        where:{id},
+        });
+    }
     
 }

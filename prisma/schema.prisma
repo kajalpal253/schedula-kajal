@@ -5,7 +5,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  
 }
 
 model User {
@@ -21,7 +20,7 @@ model User {
 }
 
 model Doctor {
-  id                Int    @id @default(autoincrement())
+  id                Int                    @id @default(autoincrement())
   fullName          String
   specialization    String
   experience        Int
@@ -29,11 +28,10 @@ model Doctor {
   consultationFee   String
   availabilityHours String
   profileDetails    String
-  userId            Int    @unique
-  user              User   @relation(fields: [userId], references: [id])
-
+  userId            Int                    @unique
   availabilities    Availability[]
   overrides         AvailabilityOverride[]
+  user              User                   @relation(fields: [userId], references: [id])
 }
 
 model Patient {
@@ -54,26 +52,25 @@ model playing_with_neon {
 }
 
 model Availability {
-  id         Int      @id @default(autoincrement())
-  doctorId   Int
-  dayOfWeek  Int
-  startTime  String
-  endTime    String
-
-  doctor     Doctor   @relation(fields: [doctorId], references: [id])
-  createdAt  DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  doctorId  Int
+  dayOfWeek Int
+  startTime String
+  endTime   String
+  createdAt DateTime @default(now())
+  doctor    Doctor   @relation(fields: [doctorId], references: [id])
 }
 
 model AvailabilityOverride {
-  id         Int      @id @default(autoincrement())
-  doctorId   Int
-  date       DateTime
-  startTime  String
-  endTime    String
-
-  doctor     Doctor   @relation(fields: [doctorId], references: [id])
-  createdAt  DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  doctorId  Int
+  date      DateTime
+  startTime String
+  endTime   String
+  createdAt DateTime @default(now())
+  doctor    Doctor   @relation(fields: [doctorId], references: [id])
 }
+
 enum Role {
   Doctor
   Patient
